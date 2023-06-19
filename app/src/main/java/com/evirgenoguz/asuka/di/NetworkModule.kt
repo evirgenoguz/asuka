@@ -3,6 +3,7 @@ package com.evirgenoguz.asuka.di
 import android.content.Context
 import androidx.viewbinding.BuildConfig
 import com.evirgenoguz.asuka.data.NetworkManager
+import com.evirgenoguz.asuka.data.api.AsukaApi
 import com.evirgenoguz.asuka.utils.Constants
 import com.google.gson.Gson
 import dagger.Module
@@ -14,6 +15,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -51,6 +53,11 @@ object NetworkModule {
         .pingInterval(1, TimeUnit.SECONDS)
         .build()
 
+    @Singleton
+    @Provides
+    fun provideConverterFactory(): GsonConverterFactory =
+        GsonConverterFactory.create()
+
     @Provides
     @Singleton
     fun provideRetrofitClient(
@@ -60,6 +67,10 @@ object NetworkModule {
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    @Provides
+    @Singleton
+    fun provideAsukaApi(client: Retrofit): AsukaApi = client.create(AsukaApi::class.java)
 
 
     //ToDo: our api provider function will be here for example

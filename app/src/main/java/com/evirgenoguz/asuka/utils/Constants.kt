@@ -6,5 +6,6 @@ package com.evirgenoguz.asuka.utils
 object Constants {
 
     //ToDo: this will change with localhost with your port
-    const val BASE_URL = "http://localhost:8000/"
+    const val BASE_URL = "http://192.168.1.159:8000/"
+    const val LOGIN_URL = "api/v1/auth/login"
 }
