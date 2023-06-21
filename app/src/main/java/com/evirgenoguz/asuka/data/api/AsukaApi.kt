@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -15,10 +16,17 @@ import retrofit2.http.POST
 interface AsukaApi {
 
     //ToDo: this block will have some functions with @GET @POST like that also it has to be suspend function
-    @POST(Constants.LOGIN_URL)
     @FormUrlEncoded
+    @POST(Constants.LOGIN_URL)
     suspend fun login(
+        @Field("grant_type") grantType: String = "",
         @Field("username") userName: String,
-        @Field("password") password: String
+        @Field("password") password: String,
+        @Field("scope") scope: String = "",
+        @Field("client") client: String = "",
+        @Field("client_secret") clientSecret: String = ""
     ): Response<LoginResponse>
+
+    @GET(Constants.HEALTH)
+    suspend fun isHealthy(): Response<String>
 }

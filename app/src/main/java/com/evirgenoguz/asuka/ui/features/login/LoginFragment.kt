@@ -23,11 +23,38 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun setupUi() {
         initListeners()
         observeLoginLiveData()
+        observeHealthyLiveData()
     }
 
     private fun observeLoginLiveData() {
         lifecycleScope.launchWhenStarted {
             observeLiveData(viewModel.login) {
+                when (it) {
+                    is NetworkResult.Loading -> {
+                        Log.d(TAG, "Deneme")
+                    }
+
+                    is NetworkResult.Success -> {
+
+                        // TODO: navigate inside the app with uid
+                        Toast.makeText(
+                            context,
+                            "$it successfully login",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    is NetworkResult.Error -> {
+                        Log.e(TAG, it.error.message)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeHealthyLiveData() {
+        lifecycleScope.launchWhenStarted {
+            observeLiveData(viewModel.healthy) {
                 when (it) {
                     is NetworkResult.Loading -> {
                         Log.d(TAG, "Deneme")
@@ -44,7 +71,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     }
 
                     is NetworkResult.Error -> {
-                        Log.e("Login Fragment", it.error.message)
+                        Log.e(TAG, it.error.message)
                     }
                 }
             }
@@ -54,6 +81,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun initListeners() {
         binding.loginButton.setOnClickListener {
             viewModel.login(LoginRequest("abdullah", "123"))
+//            viewModel.isHealthy()
         }
     }
 

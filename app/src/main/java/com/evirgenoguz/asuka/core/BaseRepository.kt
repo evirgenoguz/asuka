@@ -1,11 +1,13 @@
-package com.evirgenoguz.asuka.data
+package com.evirgenoguz.asuka.core
 
+import com.evirgenoguz.asuka.data.NetworkResult
+import com.evirgenoguz.asuka.data.ServerErrorModel
 import retrofit2.Response
 
 /**
  * Created by Oguz Evirgen on 19.06.2023.
  */
-abstract class BaseApiResponse {
+abstract class BaseRepository {
     suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): NetworkResult<T> {
         try {
             val response = apiCall()
